@@ -108,6 +108,23 @@ travel-optimization-engine/
 
 ---
 
+## Tác giả
+
+<table>
+  <tr>
+    <td width="80">
+      <img src="https://avatars.githubusercontent.com/u/237002926?v=4" width="64" height="64" style="border-radius:50%" alt="Du Hoang Dinh"/>
+    </td>
+    <td>
+      <strong>Du Hoang Dinh</strong><br/>
+      <a href="https://github.com/duhd-vnpay">@duhd-vnpay</a> · VNPAY · Vietnam<br/><br/>
+      Xây dựng Travel Optimization Engine như một thử nghiệm thực tế về việc dùng AI Agent để giải quyết bài toán thực — tối ưu chi phí vé máy bay cho cá nhân và doanh nghiệp.
+    </td>
+  </tr>
+</table>
+
+---
+
 ## License
 
 MIT — tự do sử dụng, chỉnh sửa, và phân phối.
