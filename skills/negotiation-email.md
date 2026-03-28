@@ -49,6 +49,13 @@ ask:
 - Đặt deadline phản hồi rõ ràng để tạo urgency thật
 - Để ngỏ cửa cho counter-offer
 
+## CC và người nhận phù hợp
+
+**CC gợi ý theo tình huống:**
+- CC giám đốc tài chính / CFO khi email > $50k/năm (tạo weight)
+- CC trưởng phòng liên quan nếu họ là decision maker thực sự
+- Không CC quá nhiều người — tối đa 2, tránh tạo cảm giác committee
+
 ## Người nhận phù hợp
 
 | Tình huống | Gửi cho |
