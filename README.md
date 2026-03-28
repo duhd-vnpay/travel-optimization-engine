@@ -210,47 +210,44 @@ travel-optimization-engine/
 
 Mặc định plugin chạy ở chế độ **estimate** (dữ liệu lịch sử). Để lấy giá thật thời gian thực, đăng ký các API miễn phí sau:
 
-> ⚠️ **Amadeus Self-Service đã đóng cửa** — Không nhận đăng ký mới từ đầu 2026, tắt hoàn toàn 17/7/2026. Dùng Kiwi hoặc Skyscanner thay thế.
+> ⚠️ **Amadeus Self-Service** đã đóng (tắt 17/7/2026) và **Kiwi Tequila** chuyển sang invitation-only. Dùng 2 API bên dưới — đăng ký được ngay, không cần approval.
 
-### 1. Kiwi Tequila — Khuyến nghị ✅
+### 1. SerpApi — Google Flights ✅ 250 calls/tháng free
 
-1. Đăng ký tại **https://tequila.kiwi.com/portal/login/register**
-2. Vào **My Applications** → **+ Add Application** → chọn **Kiwi.com Affiliate Program**
-3. Copy **API Key**
-4. Khai báo cho Claude khi bắt đầu session:
+1. Đăng ký tại **https://serpapi.com/users/sign_up** — lấy key ngay, không cần approval
+2. Khai báo cho Claude:
 
 ```
-Kiwi Tequila API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+SerpApi API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-**Lợi thế:** Virtual interlining (ghép vé nhiều hãng), ~1,000–5,000 req/ngày free.
+**Lợi thế:** Dữ liệu từ Google Flights, phủ gần như tất cả hãng toàn cầu.
 
-### 2. Skyscanner — Thay thế Amadeus ✅
+### 2. FlightAPI.io ✅ 20 calls free trial
 
-1. Đăng ký tại **https://www.partners.skyscanner.net/product/travel-api**
-2. Apply làm partner → nhận **API Key** qua email (1–3 ngày)
-3. Khai báo cho Claude:
+1. Đăng ký tại **https://www.flightapi.io** — lấy key ngay, không cần approval
+2. Khai báo cho Claude:
 
 ```
-Skyscanner API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+FlightAPI.io API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-**Lợi thế:** Phủ 1,200+ hãng, 52 thị trường — thay thế tốt nhất cho Amadeus.
+**Lợi thế:** 700+ hãng, pricing realtime, JSON đơn giản. Sau free trial: $49/tháng.
 
 ### Dùng cả hai cùng lúc
 
 ```
 Credentials API cho session này:
-- Kiwi Tequila: key=xxx
-- Skyscanner: key=xxx
+- SerpApi: key=xxx
+- FlightAPI.io: key=xxx
 ```
 
-| Cấu hình | Độ chính xác giá |
-|----------|-----------------|
-| Không có API | Estimate ±30–50% |
-| Chỉ Kiwi | Giá thật · Mạnh về virtual interlining |
-| Chỉ Skyscanner | Giá thật · Phủ rộng FSC lớn |
-| **Cả hai** | **Tốt nhất — đầy đủ FSC + LCC + virtual** |
+| Cấu hình | Free calls | Độ chính xác giá |
+|----------|-----------|-----------------|
+| Không có API | — | Estimate ±30–50% |
+| SerpApi | 250/tháng | Giá thật · Dữ liệu Google Flights |
+| FlightAPI.io | 20 trial | Giá thật · 700+ hãng |
+| **Cả hai** | — | **Tốt nhất** |
 
 ---
 

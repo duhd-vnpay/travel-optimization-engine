@@ -7,71 +7,79 @@
 
 ## Đăng ký API & Khai báo credentials
 
-> ⚠️ **Amadeus Self-Service đã đóng cửa** — Portal ngừng nhận đăng ký mới từ đầu 2026 và sẽ tắt hoàn toàn ngày **17/7/2026**. Dùng Kiwi Tequila hoặc Skyscanner thay thế.
+> ⚠️ **Tình trạng API 2026:**
+> - **Amadeus Self-Service**: đóng cửa, tắt hoàn toàn 17/7/2026
+> - **Kiwi Tequila**: chuyển sang invitation-only, không đăng ký tự do
+> - **Khuyến nghị hiện tại**: SerpApi (Google Flights) hoặc FlightAPI.io
 
 ---
 
-### Kiwi Tequila API — Khuyến nghị chính ✅
+### SerpApi — Google Flights API ✅ Mở đăng ký, 250 calls/tháng free
 
-**Free tier:** Miễn phí cho cá nhân/indie, bao gồm virtual interlining
+Truy cập dữ liệu Google Flights qua API có cấu trúc JSON.
 
 **Bước đăng ký:**
 
-1. Truy cập **https://tequila.kiwi.com/portal/login/register**
-2. Tạo tài khoản → xác nhận email
-3. Vào **My Applications** → **+ Add Application**
-4. Chọn loại partnership: **Kiwi.com Affiliate Program** (cho cá nhân)
-5. Copy **API Key**
+1. Truy cập **https://serpapi.com/users/sign_up**
+2. Tạo tài khoản → xác nhận email → lấy ngay **API Key**
+3. Không cần approval, dùng được ngay
 
 **Giới hạn free:**
-- ~1,000–5,000 requests/ngày cho tài khoản indie
-- Đầy đủ virtual interlining (ghép vé nhiều hãng)
-- Kết quả bao gồm `deep_link` để đặt vé trực tiếp
+- **250 queries/tháng** (free plan)
+- Dữ liệu từ Google Flights — phủ hầu hết hãng toàn cầu
+- Hỗ trợ round trip, one-way, multi-city, economy/business/first
 
 **Khai báo credentials trong Claude:**
 
 ```
-Kiwi Tequila API Key: [dán key ở đây]
+SerpApi API Key: [dán key ở đây]
 ```
 
-> Nói với Claude: *"Dùng Kiwi API key sau để tìm giá thật và virtual interlining: [key]"*
+> Nói với Claude: *"Dùng SerpApi key sau để tìm giá Google Flights: [key]"*
 
 ---
 
-### Skyscanner API — Thay thế Amadeus ✅
+### FlightAPI.io ✅ Mở đăng ký, 20 calls free trial
 
-**Free tier:** Miễn phí cho approved partner, phủ 1,200+ hãng bay
+API chuyên flight pricing, phủ 700+ hãng, JSON output.
 
 **Bước đăng ký:**
 
-1. Truy cập **https://developers.skyscanner.net**
-2. Đọc docs → vào **https://www.partners.skyscanner.net/product/travel-api**
-3. Apply để trở thành partner → điền thông tin use case
-4. Nhận **API Key** qua email sau khi được approve (thường 1–3 ngày làm việc)
+1. Truy cập **https://www.flightapi.io**
+2. Sign up → lấy ngay **API Key** — không cần approval
+3. 20 calls free để test, sau đó $49/tháng (30,000 calls)
 
 **Giới hạn free:**
-- Không công bố cụ thể, đủ cho cá nhân và testing
-- **Flights Live Prices API**: giá thật theo route + ngày
-- Hỗ trợ 52 thị trường, 30 ngôn ngữ
+- 20 API calls (đủ để test và demo)
+- Giá thật realtime từ 700+ hãng, multi-currency JSON
 
 **Khai báo credentials trong Claude:**
 
 ```
-Skyscanner API Key: [dán key ở đây]
+FlightAPI.io API Key: [dán key ở đây]
 ```
 
-> Nói với Claude: *"Dùng Skyscanner API key sau để tìm giá thật: [key]"*
+> Nói với Claude: *"Dùng FlightAPI key sau để tìm giá thật: [key]"*
 
 ---
 
-### Sử dụng cả hai API trong một session
+### Skyscanner API ⏳ Cần approval (1–3 ngày)
 
-Khi có đủ cả hai key, cung cấp cho Claude lúc bắt đầu session:
+Nếu cần phủ rộng hơn và chấp nhận chờ approval:
+
+1. Truy cập **https://www.partners.skyscanner.net/product/travel-api**
+2. Apply làm partner → nhận **API Key** qua email sau 1–3 ngày làm việc
+
+---
+
+### Sử dụng API trong session Claude
+
+Cung cấp key khi bắt đầu session:
 
 ```
-Tôi muốn tối ưu vé máy bay. Credentials API:
-- Kiwi Tequila: key=[...]
-- Skyscanner: key=[...]
+Credentials API cho session này:
+- SerpApi (Google Flights): key=[...]
+- FlightAPI.io: key=[...]
 ```
 
 Plugin sẽ query song song và trả về giá **thực tế** thay vì estimate.
@@ -80,14 +88,13 @@ Plugin sẽ query song song và trả về giá **thực tế** thay vì estimat
 
 ### So sánh chế độ hoạt động
 
-| Chế độ | Kiwi Tequila | Skyscanner | Độ chính xác giá |
-|--------|-------------|------------|-----------------|
-| Không có API | ✗ | ✗ | Estimate ±30–50% |
-| Chỉ Kiwi | ✓ | ✗ | Tốt · Mạnh về virtual interlining |
-| Chỉ Skyscanner | ✗ | ✓ | Tốt · Phủ rộng FSC lớn |
-| Cả hai | ✓ | ✓ | **Tốt nhất** · Đầy đủ FSC + LCC + virtual |
-
-> **Amadeus Enterprise** vẫn hoạt động nhưng chỉ dành cho doanh nghiệp lớn/OTA, không có free tier.
+| Chế độ | Free calls | Đăng ký | Độ chính xác |
+|--------|-----------|---------|-------------|
+| Không có API | — | — | Estimate ±30–50% |
+| SerpApi (Google Flights) | 250/tháng | Ngay, không cần approval | ✅ Tốt · Dữ liệu Google Flights |
+| FlightAPI.io | 20 calls trial | Ngay, không cần approval | ✅ Tốt · 700+ hãng |
+| Skyscanner | Free (approved) | Cần approval 1–3 ngày | ✅ Tốt · Phủ rộng |
+| **SerpApi + FlightAPI.io** | — | — | **Tốt nhất hiện tại** |
 
 ---
 
