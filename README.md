@@ -57,6 +57,79 @@ Bật **Sync automatically** để nhận update mỗi khi có commit mới.
 
 ---
 
+### Cách 4 — Claude.ai Chat qua Projects *(không cần cài đặt)*
+
+Dùng được ngay trên **claude.ai** mà không cần CLI hay Cowork — thông qua tính năng **Projects**.
+
+#### Bước 1: Tạo Project
+
+1. Vào **claude.ai** → **Projects** (sidebar trái) → **New project**
+2. Đặt tên: `Travel Optimizer`
+
+#### Bước 2: Upload files tham chiếu
+
+Trong Project → **Add content** → Upload các file sau từ repo:
+
+| File | Mục đích |
+|------|----------|
+| `references/airline-fee-database.md` | Bảng phí 8 hãng |
+| `references/hub-airports.md` | Hub + transit visa + MCT |
+| `references/api-endpoints.md` | Hướng dẫn API (nếu dùng) |
+
+Tải trực tiếp:
+```
+https://github.com/duhd-vnpay/travel-optimization-engine/archive/refs/heads/main.zip
+```
+Giải nén → upload 3 file trong thư mục `references/`.
+
+#### Bước 3: Set Project Instructions
+
+Trong Project → **Project instructions** → dán nội dung sau:
+
+```
+Bạn là travel optimization specialist với đầy đủ kiến thức về:
+- Tối ưu ngày bay qua date matrix (thứ 3/4 rẻ hơn ~15%)
+- Tìm virtual interlining qua Kiwi Tequila
+- So sánh lộ trình qua hub chiến lược (ICN, IST, TPE...)
+- Bóc tách phí ẩn LCC để tính true_total thực phải trả
+- Phân tích break-even refundable vs non-refundable
+- Soạn email thương lượng corporate rate B2B
+- Phân tích hidden city (CHỈ khi được hỏi trực tiếp)
+
+Nguyên tắc:
+- Luôn tính giá all-in (base + thuế + hành lý + ghế)
+- Không bao giờ báo giá base fare mà không có cảnh báo
+- Nếu không có API thực, nói rõ đây là estimate và yêu cầu user verify
+- Không đặt vé thay user — chỉ phân tích và đề xuất
+- Tham chiếu các file đã upload để tra phí và hub chính xác
+
+Khi nhận câu hỏi về vé máy bay, thu thập đủ: điểm đi/đến, ngày, số người,
+hành lý, độ linh hoạt — trước khi phân tích.
+```
+
+#### Bước 4: Bắt đầu dùng
+
+Chat tự nhiên trong Project, ví dụ:
+- *"Tôi muốn bay HAN → Tokyo tháng 5, ngày nào rẻ nhất?"*
+- *"So sánh VietJet 850k với Bamboo 1.1tr nếu tôi cần 23kg ký gửi"*
+- *"Soạn email thương lượng giá với Vietnam Airlines, công ty tôi bay 80 chuyến/năm"*
+
+> **Lưu ý:** Chế độ này không có slash commands (`/optimize-flight`...). Thay vào đó dùng ngôn ngữ tự nhiên — Claude sẽ tự áp dụng đúng skill theo ngữ cảnh.
+
+---
+
+### So sánh các cách cài đặt
+
+| | Claude Chat (Projects) | Claude Code CLI | Cowork Plugin | Org Marketplace |
+|---|---|---|---|---|
+| Yêu cầu | Pro plan | Node.js + CLI | Cowork preview | Team/Enterprise |
+| Cài đặt | Không cần | 3 lệnh | 3 lệnh | Admin setup |
+| Slash commands | ✗ | ✓ | ✓ | ✓ |
+| Tự động update | ✗ (manual) | ✗ | ✗ | ✓ |
+| Phù hợp | Dùng nhanh | Dev/cá nhân | Power user | Tổ chức |
+
+---
+
 ## Slash Commands
 
 | Command | Mô tả |
