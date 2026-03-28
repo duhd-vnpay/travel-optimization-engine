@@ -8,13 +8,45 @@
 
 ## Cài đặt
 
-### Cách 1 — Upload ZIP (mọi paid plan)
+### Cách 1 — Claude CLI *(nhanh nhất, mọi paid plan)*
 
-1. Tải [`travel-optimization-plugin.zip`](https://github.com/duhd-vnpay/travel-optimization-engine/archive/refs/heads/main.zip)
-2. Mở **Claude Desktop** → **Cowork** → **Customize** → **+** → **Upload plugin**
-3. Chọn file ZIP → plugin active ngay
+```bash
+# Cài Claude CLI nếu chưa có
+npm install -g @anthropic-ai/claude-code
 
-### Cách 2 — Org Marketplace từ GitHub *(Team / Enterprise)*
+# Add marketplace từ GitHub repo này
+claude plugin marketplace add duhd-vnpay/travel-optimization-engine
+
+# Cài plugin
+claude plugin install travel-optimization-engine@travel-optimization-engine
+```
+
+Kiểm tra đã cài thành công:
+
+```bash
+claude plugin list
+# travel-optimization-engine  v1.0.0  ✔ enabled
+```
+
+---
+
+### Cách 2 — Cài local từ source *(phát triển / tùy chỉnh)*
+
+```bash
+# Clone repo
+git clone https://github.com/duhd-vnpay/travel-optimization-engine.git
+cd travel-optimization-engine
+
+# Add marketplace từ thư mục local
+claude plugin marketplace add .
+
+# Cài plugin
+claude plugin install travel-optimization-engine@local-travel-plugins
+```
+
+---
+
+### Cách 3 — Org Marketplace *(Team / Enterprise)*
 
 ```
 Organization Settings → Plugins → + → Add marketplace from GitHub
@@ -57,17 +89,18 @@ Skills tự kích hoạt theo ngữ cảnh — không cần gọi tên skill, ch
 ```
 travel-optimization-engine/
 ├── .claude-plugin/
-│   └── plugin.json              # Manifest
+│   ├── plugin.json              # Manifest
+│   └── marketplace.json         # Local marketplace config
 ├── skills/
-│   ├── orchestrator.md          # Router chính
-│   ├── date-optimization.md
-│   ├── flight-search.md
-│   ├── route-optimization.md
-│   ├── deals-verification.md
-│   ├── fee-analysis.md
-│   ├── negotiation-email.md
-│   ├── flexibility-analysis.md
-│   └── hidden-city-strategy.md
+│   ├── orchestrator/SKILL.md    # Router chính
+│   ├── date-optimization/SKILL.md
+│   ├── flight-search/SKILL.md
+│   ├── route-optimization/SKILL.md
+│   ├── deals-verification/SKILL.md
+│   ├── fee-analysis/SKILL.md
+│   ├── negotiation-email/SKILL.md
+│   ├── flexibility-analysis/SKILL.md
+│   └── hidden-city-strategy/SKILL.md
 ├── commands/
 │   ├── optimize-flight.md
 │   ├── analyze-fees.md
