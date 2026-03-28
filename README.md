@@ -133,6 +133,48 @@ travel-optimization-engine/
 
 ---
 
+## Cấu hình API để lấy giá thật
+
+Mặc định plugin chạy ở chế độ **estimate** (dữ liệu lịch sử). Để lấy giá thật thời gian thực, đăng ký 2 API miễn phí sau:
+
+### 1. Amadeus Self-Service — 500 req/tháng miễn phí
+
+1. Đăng ký tại **https://developers.amadeus.com/register**
+2. Tạo app → copy **API Key** + **API Secret**
+3. Khai báo cho Claude khi bắt đầu session:
+
+```
+Amadeus API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Amadeus API Secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+### 2. Kiwi Tequila — Free cho indie/cá nhân
+
+1. Đăng ký tại **https://tequila.kiwi.com/portal**
+2. Generate API Key → copy
+3. Khai báo cho Claude:
+
+```
+Kiwi Tequila API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+### Dùng cả hai cùng lúc
+
+```
+Credentials API cho session này:
+- Amadeus: key=xxx / secret=xxx
+- Kiwi: key=xxx
+```
+
+| Cấu hình | Độ chính xác giá |
+|----------|-----------------|
+| Không có API | Estimate ±30–50% |
+| Chỉ Amadeus | Giá thật · Thiếu virtual interlining |
+| Chỉ Kiwi | Giá thật · Thiếu một số hãng lớn |
+| **Cả hai** | **Tốt nhất — đầy đủ FSC + LCC + virtual** |
+
+---
+
 ## Lưu ý
 
 - Giá trong phân tích là **estimate** nếu không cấu hình Amadeus/Kiwi API key thật — luôn verify trên booking site trước khi thanh toán

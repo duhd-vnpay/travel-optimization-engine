@@ -3,6 +3,89 @@
 > **last_updated**: 2025-05-01
 > **note**: Reference file cho `flight-search` và `date-optimization` skills. Kiểm tra docs chính thức nếu gặp lỗi API.
 
+---
+
+## Đăng ký API & Khai báo credentials
+
+### Amadeus Self-Service API — Free Tier
+
+**Free tier:** 500 requests/tháng (production) + sandbox không giới hạn
+
+**Bước đăng ký:**
+
+1. Truy cập https://developers.amadeus.com/register
+2. Tạo tài khoản → xác nhận email
+3. Vào **My Apps** → **Create new app**
+4. Điền tên app (VD: `travel-optimizer-personal`) → chọn **Self-Service**
+5. Copy **API Key** và **API Secret**
+
+**Môi trường:**
+- **Sandbox** (test): `https://test.api.amadeus.com` — dữ liệu giả, không giới hạn call
+- **Production** (giá thật): `https://api.amadeus.com` — 500 req/tháng free, sau đó tính phí
+
+**Khai báo credentials trong Claude:**
+
+```
+Amadeus API Key: [dán key ở đây]
+Amadeus API Secret: [dán secret ở đây]
+Dùng môi trường: production (hoặc sandbox để test)
+```
+
+> Nói với Claude: *"Hãy dùng Amadeus API key sau để tìm giá thật: [key] / [secret]"*
+
+---
+
+### Kiwi Tequila API — Free Tier
+
+**Free tier:** Có tài khoản partner miễn phí cho cá nhân/indie developer
+
+**Bước đăng ký:**
+
+1. Truy cập https://tequila.kiwi.com/portal
+2. Đăng ký tài khoản → chọn **"I'm an individual / small business"**
+3. Vào **API Keys** → **Generate new key**
+4. Copy **API Key**
+
+**Giới hạn free:**
+- Không công bố số call cụ thể, thực tế ~1,000–5,000 req/ngày cho tài khoản indie
+- Kết quả đầy đủ bao gồm virtual interlining
+
+**Khai báo credentials trong Claude:**
+
+```
+Kiwi Tequila API Key: [dán key ở đây]
+```
+
+> Nói với Claude: *"Dùng Kiwi API key sau để tìm virtual interlining: [key]"*
+
+---
+
+### Sử dụng cả hai API trong một session
+
+Khi có đủ cả hai key, cung cấp cho Claude lúc bắt đầu session:
+
+```
+Tôi muốn tối ưu vé máy bay. Credentials API:
+- Amadeus: key=[...] / secret=[...]
+- Kiwi: key=[...]
+Dùng production cho Amadeus.
+```
+
+Plugin sẽ tự động query song song và trả về giá **thực tế** thay vì estimate.
+
+---
+
+### So sánh chế độ hoạt động
+
+| Chế độ | Amadeus | Kiwi | Độ chính xác giá |
+|--------|---------|------|-----------------|
+| Không có API | ✗ | ✗ | Estimate ±30–50% |
+| Chỉ Amadeus | ✓ (500/tháng) | ✗ | Tốt · Thiếu virtual interlining |
+| Chỉ Kiwi | ✗ | ✓ | Tốt · Thiếu một số FSC |
+| Cả hai | ✓ | ✓ | **Tốt nhất** · Đầy đủ cả FSC + LCC + virtual |
+
+---
+
 ## Amadeus Self-Service API
 
 Base URL: `https://api.amadeus.com`  
