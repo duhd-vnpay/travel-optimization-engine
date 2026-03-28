@@ -145,7 +145,7 @@ Chat tự nhiên trong Project, ví dụ:
 | Skill | Kích hoạt khi | Tiết kiệm |
 |-------|--------------|----------|
 | `date-optimization` | Ngày bay chưa cố định, muốn biết ngày nào rẻ nhất | ±30% |
-| `flight-search` | Tìm vé cụ thể, bao gồm virtual interlining Amadeus + Kiwi | 30–40% |
+| `flight-search` | Tìm vé cụ thể, bao gồm virtual interlining qua Kiwi + Skyscanner | 30–40% |
 | `route-optimization` | So sánh bay thẳng vs quá cảnh qua hub chiến lược | $200–400 |
 | `deals-verification` | Tìm mã giảm giá, promo hiện hành kèm confidence rating | 5–20% |
 | `fee-analysis` | Bóc tách phí ẩn LCC, tính true_total, re-rank kết quả | Re-rank |
@@ -183,7 +183,7 @@ travel-optimization-engine/
 └── references/
     ├── hub-airports.md           # Transit visa + MCT table
     ├── airline-fee-database.md   # 8 hãng, phí đầy đủ
-    └── api-endpoints.md          # Amadeus + Kiwi API spec
+    └── api-endpoints.md          # Kiwi + Skyscanner API spec
 ```
 
 ---
@@ -208,42 +208,48 @@ travel-optimization-engine/
 
 ## Cấu hình API để lấy giá thật
 
-Mặc định plugin chạy ở chế độ **estimate** (dữ liệu lịch sử). Để lấy giá thật thời gian thực, đăng ký 2 API miễn phí sau:
+Mặc định plugin chạy ở chế độ **estimate** (dữ liệu lịch sử). Để lấy giá thật thời gian thực, đăng ký các API miễn phí sau:
 
-### 1. Amadeus Self-Service — 500 req/tháng miễn phí
+> ⚠️ **Amadeus Self-Service đã đóng cửa** — Không nhận đăng ký mới từ đầu 2026, tắt hoàn toàn 17/7/2026. Dùng Kiwi hoặc Skyscanner thay thế.
 
-1. Đăng ký tại **https://developers.amadeus.com/register**
-2. Tạo app → copy **API Key** + **API Secret**
-3. Khai báo cho Claude khi bắt đầu session:
+### 1. Kiwi Tequila — Khuyến nghị ✅
 
-```
-Amadeus API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-Amadeus API Secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-```
-
-### 2. Kiwi Tequila — Free cho indie/cá nhân
-
-1. Đăng ký tại **https://tequila.kiwi.com/portal**
-2. Generate API Key → copy
-3. Khai báo cho Claude:
+1. Đăng ký tại **https://tequila.kiwi.com/portal/login/register**
+2. Vào **My Applications** → **+ Add Application** → chọn **Kiwi.com Affiliate Program**
+3. Copy **API Key**
+4. Khai báo cho Claude khi bắt đầu session:
 
 ```
 Kiwi Tequila API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
+**Lợi thế:** Virtual interlining (ghép vé nhiều hãng), ~1,000–5,000 req/ngày free.
+
+### 2. Skyscanner — Thay thế Amadeus ✅
+
+1. Đăng ký tại **https://www.partners.skyscanner.net/product/travel-api**
+2. Apply làm partner → nhận **API Key** qua email (1–3 ngày)
+3. Khai báo cho Claude:
+
+```
+Skyscanner API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+**Lợi thế:** Phủ 1,200+ hãng, 52 thị trường — thay thế tốt nhất cho Amadeus.
+
 ### Dùng cả hai cùng lúc
 
 ```
 Credentials API cho session này:
-- Amadeus: key=xxx / secret=xxx
-- Kiwi: key=xxx
+- Kiwi Tequila: key=xxx
+- Skyscanner: key=xxx
 ```
 
 | Cấu hình | Độ chính xác giá |
 |----------|-----------------|
 | Không có API | Estimate ±30–50% |
-| Chỉ Amadeus | Giá thật · Thiếu virtual interlining |
-| Chỉ Kiwi | Giá thật · Thiếu một số hãng lớn |
+| Chỉ Kiwi | Giá thật · Mạnh về virtual interlining |
+| Chỉ Skyscanner | Giá thật · Phủ rộng FSC lớn |
 | **Cả hai** | **Tốt nhất — đầy đủ FSC + LCC + virtual** |
 
 ---

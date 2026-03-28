@@ -1,54 +1,32 @@
 # API Endpoints Reference
 
-> **last_updated**: 2025-05-01
+> **last_updated**: 2026-03-28
 > **note**: Reference file cho `flight-search` và `date-optimization` skills. Kiểm tra docs chính thức nếu gặp lỗi API.
 
 ---
 
 ## Đăng ký API & Khai báo credentials
 
-### Amadeus Self-Service API — Free Tier
-
-**Free tier:** 500 requests/tháng (production) + sandbox không giới hạn
-
-**Bước đăng ký:**
-
-1. Truy cập https://developers.amadeus.com/register
-2. Tạo tài khoản → xác nhận email
-3. Vào **My Apps** → **Create new app**
-4. Điền tên app (VD: `travel-optimizer-personal`) → chọn **Self-Service**
-5. Copy **API Key** và **API Secret**
-
-**Môi trường:**
-- **Sandbox** (test): `https://test.api.amadeus.com` — dữ liệu giả, không giới hạn call
-- **Production** (giá thật): `https://api.amadeus.com` — 500 req/tháng free, sau đó tính phí
-
-**Khai báo credentials trong Claude:**
-
-```
-Amadeus API Key: [dán key ở đây]
-Amadeus API Secret: [dán secret ở đây]
-Dùng môi trường: production (hoặc sandbox để test)
-```
-
-> Nói với Claude: *"Hãy dùng Amadeus API key sau để tìm giá thật: [key] / [secret]"*
+> ⚠️ **Amadeus Self-Service đã đóng cửa** — Portal ngừng nhận đăng ký mới từ đầu 2026 và sẽ tắt hoàn toàn ngày **17/7/2026**. Dùng Kiwi Tequila hoặc Skyscanner thay thế.
 
 ---
 
-### Kiwi Tequila API — Free Tier
+### Kiwi Tequila API — Khuyến nghị chính ✅
 
-**Free tier:** Có tài khoản partner miễn phí cho cá nhân/indie developer
+**Free tier:** Miễn phí cho cá nhân/indie, bao gồm virtual interlining
 
 **Bước đăng ký:**
 
-1. Truy cập https://tequila.kiwi.com/portal
-2. Đăng ký tài khoản → chọn **"I'm an individual / small business"**
-3. Vào **API Keys** → **Generate new key**
-4. Copy **API Key**
+1. Truy cập **https://tequila.kiwi.com/portal/login/register**
+2. Tạo tài khoản → xác nhận email
+3. Vào **My Applications** → **+ Add Application**
+4. Chọn loại partnership: **Kiwi.com Affiliate Program** (cho cá nhân)
+5. Copy **API Key**
 
 **Giới hạn free:**
-- Không công bố số call cụ thể, thực tế ~1,000–5,000 req/ngày cho tài khoản indie
-- Kết quả đầy đủ bao gồm virtual interlining
+- ~1,000–5,000 requests/ngày cho tài khoản indie
+- Đầy đủ virtual interlining (ghép vé nhiều hãng)
+- Kết quả bao gồm `deep_link` để đặt vé trực tiếp
 
 **Khai báo credentials trong Claude:**
 
@@ -56,7 +34,33 @@ Dùng môi trường: production (hoặc sandbox để test)
 Kiwi Tequila API Key: [dán key ở đây]
 ```
 
-> Nói với Claude: *"Dùng Kiwi API key sau để tìm virtual interlining: [key]"*
+> Nói với Claude: *"Dùng Kiwi API key sau để tìm giá thật và virtual interlining: [key]"*
+
+---
+
+### Skyscanner API — Thay thế Amadeus ✅
+
+**Free tier:** Miễn phí cho approved partner, phủ 1,200+ hãng bay
+
+**Bước đăng ký:**
+
+1. Truy cập **https://developers.skyscanner.net**
+2. Đọc docs → vào **https://www.partners.skyscanner.net/product/travel-api**
+3. Apply để trở thành partner → điền thông tin use case
+4. Nhận **API Key** qua email sau khi được approve (thường 1–3 ngày làm việc)
+
+**Giới hạn free:**
+- Không công bố cụ thể, đủ cho cá nhân và testing
+- **Flights Live Prices API**: giá thật theo route + ngày
+- Hỗ trợ 52 thị trường, 30 ngôn ngữ
+
+**Khai báo credentials trong Claude:**
+
+```
+Skyscanner API Key: [dán key ở đây]
+```
+
+> Nói với Claude: *"Dùng Skyscanner API key sau để tìm giá thật: [key]"*
 
 ---
 
@@ -66,31 +70,35 @@ Khi có đủ cả hai key, cung cấp cho Claude lúc bắt đầu session:
 
 ```
 Tôi muốn tối ưu vé máy bay. Credentials API:
-- Amadeus: key=[...] / secret=[...]
-- Kiwi: key=[...]
-Dùng production cho Amadeus.
+- Kiwi Tequila: key=[...]
+- Skyscanner: key=[...]
 ```
 
-Plugin sẽ tự động query song song và trả về giá **thực tế** thay vì estimate.
+Plugin sẽ query song song và trả về giá **thực tế** thay vì estimate.
 
 ---
 
 ### So sánh chế độ hoạt động
 
-| Chế độ | Amadeus | Kiwi | Độ chính xác giá |
-|--------|---------|------|-----------------|
+| Chế độ | Kiwi Tequila | Skyscanner | Độ chính xác giá |
+|--------|-------------|------------|-----------------|
 | Không có API | ✗ | ✗ | Estimate ±30–50% |
-| Chỉ Amadeus | ✓ (500/tháng) | ✗ | Tốt · Thiếu virtual interlining |
-| Chỉ Kiwi | ✗ | ✓ | Tốt · Thiếu một số FSC |
-| Cả hai | ✓ | ✓ | **Tốt nhất** · Đầy đủ cả FSC + LCC + virtual |
+| Chỉ Kiwi | ✓ | ✗ | Tốt · Mạnh về virtual interlining |
+| Chỉ Skyscanner | ✗ | ✓ | Tốt · Phủ rộng FSC lớn |
+| Cả hai | ✓ | ✓ | **Tốt nhất** · Đầy đủ FSC + LCC + virtual |
+
+> **Amadeus Enterprise** vẫn hoạt động nhưng chỉ dành cho doanh nghiệp lớn/OTA, không có free tier.
 
 ---
 
 ## Amadeus Self-Service API
 
-Base URL: `https://api.amadeus.com`  
-Sandbox: `https://test.api.amadeus.com`  
-Docs: https://developers.amadeus.com/self-service
+> ⚠️ **Đã ngừng hoạt động** — Không nhận đăng ký mới. Tắt hoàn toàn 17/7/2026.
+> Dùng **Kiwi Tequila** hoặc **Skyscanner** thay thế (xem phần trên).
+
+~~Base URL: `https://api.amadeus.com`~~
+~~Sandbox: `https://test.api.amadeus.com`~~
+Docs (lưu trữ): https://developers.amadeus.com/self-service
 
 ### Authentication
 
