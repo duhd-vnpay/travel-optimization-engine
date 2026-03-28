@@ -1,7 +1,7 @@
 ---
 name: flight-search
 description: >
-  Tìm kiếm vé máy bay từ nhiều nguồn song song, bao gồm virtual interlining (ghép 2 vé từ 2 hãng khác nhau thành một hành trình rẻ hơn mà không aggregator thông thường nào bán). Dùng khi user muốn tìm vé cụ thể cho một ngày, so sánh tất cả hãng, hoặc hỏi tại sao giá trên Google Flights khác với nơi khác. Trigger ngay cả khi user chỉ nói "tìm vé" hay "check giá" mà không đề cập kỹ thuật.
+  Tìm kiếm vé máy bay từ nhiều nguồn song song, bao gồm virtual interlining (ghép 2 vé từ 2 hãng khác nhau thành một hành trình rẻ hơn mà không aggregator thông thường nào bán). Dùng khi user muốn tìm vé cụ thể cho một ngày, so sánh tất cả hãng, hỏi giá rẻ nhất cho một chuyến bay cụ thể, hoặc hỏi tại sao giá trên Google Flights khác với nơi khác. Trigger ngay cả khi user chỉ nói "tìm vé", "check giá", "bay tháng X", hoặc "tìm chuyến bay" mà không đề cập kỹ thuật. Luôn chạy song song với date-optimization khi ngày bay chưa cố định.
 ---
 
 # Skill: Flight Search
