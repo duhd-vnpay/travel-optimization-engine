@@ -1,0 +1,17 @@
+{
+  "name": "local-travel-plugins",
+  "owner": {
+    "name": "Du Hoang Dinh"
+  },
+  "plugins": [
+    {
+      "name": "travel-optimization-engine",
+      "source": "./",
+      "description": "Tối ưu chi phí vé máy bay end-to-end với 8 AI skills",
+      "version": "1.0.0",
+      "author": {
+        "name": "Du Hoang Dinh"
+      }
+    }
+  ]
+}

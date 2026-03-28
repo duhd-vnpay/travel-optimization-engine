@@ -1,0 +1,27 @@
+{
+  "name": "travel-optimization-engine",
+  "version": "1.0.0",
+  "description": "Tối ưu chi phí vé máy bay end-to-end với 8 AI skills — từ quét giá theo ngày, tìm virtual interlining, phân tích phí ẩn, đến soạn email thương lượng và đánh giá rủi ro vé.",
+  "author": {
+    "name": "Du Hoang Dinh"
+  },
+  "skills": [
+    "./skills/orchestrator",
+    "./skills/date-optimization",
+    "./skills/flight-search",
+    "./skills/route-optimization",
+    "./skills/deals-verification",
+    "./skills/fee-analysis",
+    "./skills/negotiation-email",
+    "./skills/flexibility-analysis",
+    "./skills/hidden-city-strategy"
+  ],
+  "commands": [
+    "./commands/optimize-flight.md",
+    "./commands/analyze-fees.md",
+    "./commands/draft-negotiation.md"
+  ],
+  "agents": [
+    "./agents/flight-optimizer.md"
+  ]
+}
