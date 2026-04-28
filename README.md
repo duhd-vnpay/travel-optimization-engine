@@ -268,7 +268,7 @@ Credentials API cho session này:
     </td>
     <td>
       <strong>Du Hoang Dinh</strong><br/>
-      <a href="https://github.com/duhd-vnpay">@duhd-vnpay</a> · VNPAY · Vietnam<br/><br/>
+      <a href="https://github.com/duhd-vnpay">@duhd-vnpay</a> · DUHD · Vietnam<br/><br/>
       Xây dựng Travel Optimization Engine như một thử nghiệm thực tế về việc dùng AI Agent để giải quyết bài toán thực — tối ưu chi phí vé máy bay cho cá nhân và doanh nghiệp.
     </td>
   </tr>
